@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.23.0+227.g5fe5ca332c
+                0.23.0+248.gf739a6be18
               </div>
             
           
@@ -782,6 +782,9 @@ by result count (index). If the range is empty - that is, if the end is
 less than or equal to the start, or if start is after the current end
 of the <a class="reference internal" href="#qcodes.dataset.data_set.DataSet" title="qcodes.dataset.data_set.DataSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSet</span></code></a> – then a dict of empty <code class="xref py py-class docutils literal notranslate"><span class="pre">xr.DataArray</span></code> s is
 returned.</p>
+<p>The dependent parameters of the Dataset are normally used as coordinates of the
+XArray dataframe. However if non unique values are found for the dependent parameter
+values we will fall back to using an index as coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -821,6 +824,9 @@ by result count (index). If the range is empty - that is, if the end is
 less than or equal to the start, or if start is after the current end
 of the <a class="reference internal" href="#qcodes.dataset.data_set.DataSet" title="qcodes.dataset.data_set.DataSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSet</span></code></a> – then a empty <code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code> s is
 returned.</p>
+<p>The dependent parameters of the Dataset are normally used as coordinates of the
+XArray dataframe. However if non unique values are found for the dependent parameter
+values we will fall back to using an index as coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

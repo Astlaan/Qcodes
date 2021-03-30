@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.23.0+227.g5fe5ca332c
+                0.23.0+248.gf739a6be18
               </div>
             
           
@@ -1322,6 +1322,10 @@
 <span class="sd">        of the :class:`.DataSet` – then a dict of empty :py:class:`xr.DataArray` s is</span>
 <span class="sd">        returned.</span>
 
+<span class="sd">        The dependent parameters of the Dataset are normally used as coordinates of the</span>
+<span class="sd">        XArray dataframe. However if non unique values are found for the dependent parameter</span>
+<span class="sd">        values we will fall back to using an index as coordinates.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            *params: string parameter names, QCoDeS Parameter objects, and</span>
 <span class="sd">                ParamSpec objects. If no parameters are supplied data for</span>
@@ -1345,7 +1349,11 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter_data</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">,</span>
                                        <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
                                        <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_to_xarray_dataarray_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+        <span class="n">datadict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_to_xarray_dataarray_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">dataarray</span> <span class="ow">in</span> <span class="n">datadict</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_metadata_to_xarray</span><span class="p">(</span><span class="n">dataarray</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">datadict</span></div>
 
 <div class="viewcode-block" id="DataSet.to_xarray_dataset"><a class="viewcode-back" href="../../../api/dataset/data_set.html#qcodes.dataset.data_set.DataSet.to_xarray_dataset">[docs]</a>    <span class="k">def</span> <span class="nf">to_xarray_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                <span class="n">ParamSpec</span><span class="p">,</span>
@@ -1365,6 +1373,10 @@
 <span class="sd">        less than or equal to the start, or if start is after the current end</span>
 <span class="sd">        of the :class:`.DataSet` – then a empty :py:class:`xr.Dataset` s is</span>
 <span class="sd">        returned.</span>
+
+<span class="sd">        The dependent parameters of the Dataset are normally used as coordinates of the</span>
+<span class="sd">        XArray dataframe. However if non unique values are found for the dependent parameter</span>
+<span class="sd">        values we will fall back to using an index as coordinates.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            *params: string parameter names, QCoDeS Parameter objects, and</span>
@@ -1414,17 +1426,37 @@
                 <span class="n">paramspec_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paramspecs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">dim</span><span class="p">)]</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
                 <span class="n">xrdataset</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">dim</span><span class="p">)]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">paramspec_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_metadata_to_xarray</span><span class="p">(</span><span class="n">xrdataset</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">xrdataset</span>
+
+    <span class="k">def</span> <span class="nf">_add_metadata_to_xarray</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">xrdataset</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;xr.Dataset&quot;</span><span class="p">,</span> <span class="s2">&quot;xr.DataArray&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">xrdataset</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s2">&quot;ds_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;sample_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_name</span><span class="p">,</span>
             <span class="s2">&quot;exp_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp_name</span><span class="p">,</span>
-            <span class="s2">&quot;snapshot&quot;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshot</span><span class="p">),</span>
+            <span class="s2">&quot;snapshot&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshot_raw</span> <span class="ow">or</span> <span class="s2">&quot;null&quot;</span><span class="p">,</span>
             <span class="s2">&quot;guid&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">guid</span><span class="p">,</span>
             <span class="s2">&quot;run_timestamp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_timestamp</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="s2">&quot;completed_timestamp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_timestamp</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;run_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_id</span>
+            <span class="s2">&quot;captured_run_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">captured_run_id</span><span class="p">,</span>
+            <span class="s2">&quot;captured_counter&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">captured_counter</span><span class="p">,</span>
+            <span class="s2">&quot;run_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span>
+            <span class="s2">&quot;run_description&quot;</span><span class="p">:</span> <span class="n">serial</span><span class="o">.</span><span class="n">to_json_for_storage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
         <span class="p">})</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_timestamp_raw</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xrdataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;run_timestamp_raw&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_timestamp_raw</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_timestamp_raw</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xrdataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+                <span class="s2">&quot;completed_timestamp_raw&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_timestamp_raw</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">xrdataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;extra_metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="k">return</span> <span class="n">xrdataset</span>
+            <span class="k">for</span> <span class="n">metadata_tag</span><span class="p">,</span> <span class="n">metadata</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">xrdataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;extra_metadata&#39;</span><span class="p">][</span><span class="n">metadata_tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_data_to_dataframe</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;pd.Index&quot;</span><span class="p">,</span> <span class="s2">&quot;pd.MultiIndex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">:</span>
