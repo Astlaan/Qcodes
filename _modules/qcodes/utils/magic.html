@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.24.0+40.g9c62c1ac2a
+                0.24.0+47.g773d3bea02
               </div>
             
           
@@ -179,7 +179,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_knowntemps</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="nd">@line_cell_magic</span>
+<div class="viewcode-block" id="QCoDeSMagic.measurement"><a class="viewcode-back" href="../../../api/utils/magic.html#qcodes.utils.magic.QCoDeSMagic.measurement">[docs]</a>    <span class="nd">@line_cell_magic</span>
     <span class="k">def</span> <span class="nf">measurement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">cell</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create ``qcodes.Loop`` measurement mimicking Python ``for`` syntax via</span>
@@ -305,7 +305,7 @@
 
         <span class="k">if</span> <span class="s1">&#39;x&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
             <span class="c1"># Execute contents</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="n">contents</span><span class="p">,</span> <span class="n">store_history</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="n">contents</span><span class="p">,</span> <span class="n">store_history</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="register_magic_class"><a class="viewcode-back" href="../../../api/utils/magic.html#qcodes.utils.magic.register_magic_class">[docs]</a><span class="k">def</span> <span class="nf">register_magic_class</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="n">QCoDeSMagic</span><span class="p">,</span> <span class="n">magic_commands</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
