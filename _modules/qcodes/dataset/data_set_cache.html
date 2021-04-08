@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.24.0+53.g2db770c4e8
+                0.24.0+59.g086c5e41e7
               </div>
             
           
@@ -177,6 +177,16 @@
     <span class="n">load_new_data_for_rundescriber</span><span class="p">,</span> <span class="n">completed</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">qcodes.dataset.sqlite.connection</span> <span class="kn">import</span> <span class="n">ConnectionPlus</span>
 <span class="kn">from</span> <span class="nn">qcodes.utils.deprecate</span> <span class="kn">import</span> <span class="n">deprecate</span>
+
+<span class="kn">from</span> <span class="nn">.exporters.export_to_pandas</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">load_to_dataframe_dict</span><span class="p">,</span>
+    <span class="n">load_to_concatenated_dataframe</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.exporters.export_to_xarray</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">load_to_xarray_dataarray_dict</span><span class="p">,</span>
+    <span class="n">load_to_xarray_dataset</span>
+<span class="p">)</span>
+
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -310,7 +320,7 @@
 <span class="sd">            represents one parameter tree.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="o">.</span><span class="n">_load_to_dataframe_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">load_to_dataframe_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataSetCache.to_pandas_dataframe"><a class="viewcode-back" href="../../../api/dataset/data_set.html#qcodes.dataset.data_set_cache.DataSetCache.to_pandas_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_pandas_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -322,7 +332,7 @@
 <span class="sd">            represents one parameter tree.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="o">.</span><span class="n">_load_to_concatenated_dataframe</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">load_to_concatenated_dataframe</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataSetCache.to_pandas"><a class="viewcode-back" href="../../../api/dataset/data_set.html#qcodes.dataset.data_set_cache.DataSetCache.to_pandas">[docs]</a>    <span class="nd">@deprecate</span><span class="p">(</span><span class="n">alternative</span><span class="o">=</span><span class="s2">&quot;to_pandas_dataframe or to_pandas_dataframe_dict&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">to_pandas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">]:</span>
@@ -358,7 +368,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="o">.</span><span class="n">_load_to_xarray_dataarray_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">load_to_xarray_dataarray_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataSetCache.to_xarray_dataset"><a class="viewcode-back" href="../../../api/dataset/data_set.html#qcodes.dataset.data_set_cache.DataSetCache.to_xarray_dataset">[docs]</a>    <span class="k">def</span> <span class="nf">to_xarray_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;xr.Dataset&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -375,7 +385,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="o">.</span><span class="n">_load_to_xarray_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">load_to_xarray_dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="load_new_data_from_db_and_append"><a class="viewcode-back" href="../../../api/dataset/data_set.html#qcodes.dataset.data_set_cache.load_new_data_from_db_and_append">[docs]</a><span class="k">def</span> <span class="nf">load_new_data_from_db_and_append</span><span class="p">(</span>

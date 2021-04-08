@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.24.0+53.g2db770c4e8
+                0.24.0+59.g086c5e41e7
               </div>
             
           
@@ -169,7 +169,6 @@
 <span></span><span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
@@ -177,9 +176,9 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span>
 <span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Hashable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span><span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span>
                     <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span>
-                    <span class="n">Sized</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span><span class="p">)</span>
+                    <span class="n">Sized</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -220,6 +219,16 @@
 <span class="kn">from</span> <span class="nn">.data_set_cache</span> <span class="kn">import</span> <span class="n">DataSetCache</span>
 <span class="kn">from</span> <span class="nn">.descriptions.versioning</span> <span class="kn">import</span> <span class="n">serialization</span> <span class="k">as</span> <span class="n">serial</span>
 <span class="kn">from</span> <span class="nn">.subscriber</span> <span class="kn">import</span> <span class="n">_Subscriber</span>
+
+<span class="kn">from</span> <span class="nn">.exporters.export_to_pandas</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">load_to_dataframe_dict</span><span class="p">,</span>
+    <span class="n">load_to_concatenated_dataframe</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.exporters.export_to_xarray</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">load_to_xarray_dataset</span><span class="p">,</span>
+    <span class="n">load_to_xarray_dataarray_dict</span>
+<span class="p">)</span>
+
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -991,36 +1000,6 @@
         <span class="k">return</span> <span class="n">get_parameter_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="p">,</span>
                                   <span class="n">valid_param_names</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span></div>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_parameter_data_identical</span><span class="p">(</span><span class="n">param_dict_a</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                                  <span class="n">param_dict_b</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">param_dict_a</span><span class="p">,</span> <span class="n">param_dict_b</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-        <span class="k">return</span> <span class="kc">True</span>
-
-    <span class="k">def</span> <span class="nf">_same_setpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadict</span><span class="p">:</span> <span class="n">ParameterData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-
-        <span class="k">def</span> <span class="nf">_get_setpoints</span><span class="p">(</span><span class="n">dd</span><span class="p">:</span> <span class="n">ParameterData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
-
-            <span class="k">for</span> <span class="n">dep_name</span><span class="p">,</span> <span class="n">param_dict</span> <span class="ow">in</span> <span class="n">dd</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">out</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="n">name</span><span class="p">:</span> <span class="n">vals</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="n">param_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">dep_name</span>
-                <span class="p">}</span>
-                <span class="k">yield</span> <span class="n">out</span>
-
-        <span class="n">sp_iterator</span> <span class="o">=</span> <span class="n">_get_setpoints</span><span class="p">(</span><span class="n">datadict</span><span class="p">)</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">first</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">sp_iterator</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>
-
-        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameter_data_identical</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">rest</span><span class="p">)</span> <span class="k">for</span> <span class="n">rest</span> <span class="ow">in</span> <span class="n">sp_iterator</span><span class="p">)</span>
-
 <div class="viewcode-block" id="DataSet.to_pandas_dataframe_dict"><a class="viewcode-back" href="../../../api/dataset/data_set.html#qcodes.dataset.data_set.DataSet.to_pandas_dataframe_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_pandas_dataframe_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                  <span class="o">*</span><span class="n">params</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                 <span class="n">ParamSpec</span><span class="p">,</span>
@@ -1067,7 +1046,7 @@
         <span class="n">datadict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter_data</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">,</span>
                                            <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
                                            <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
-        <span class="n">dfs_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_to_dataframe_dict</span><span class="p">(</span><span class="n">datadict</span><span class="p">)</span>
+        <span class="n">dfs_dict</span> <span class="o">=</span> <span class="n">load_to_dataframe_dict</span><span class="p">(</span><span class="n">datadict</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dfs_dict</span></div>
 
 <div class="viewcode-block" id="DataSet.get_data_as_pandas_dataframe"><a class="viewcode-back" href="../../../api/dataset/data_set.html#qcodes.dataset.data_set.DataSet.get_data_as_pandas_dataframe">[docs]</a>    <span class="nd">@deprecate</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s1">&#39;This method will be removed due to inconcise naming, please &#39;</span>
@@ -1164,24 +1143,7 @@
         <span class="n">datadict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter_data</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">,</span>
                                            <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
                                            <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_to_concatenated_dataframe</span><span class="p">(</span><span class="n">datadict</span><span class="p">)</span></div>
-
-    <span class="k">def</span> <span class="nf">_load_to_concatenated_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadict</span><span class="p">:</span> <span class="n">ParameterData</span>
-                                        <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_same_setpoints</span><span class="p">(</span><span class="n">datadict</span><span class="p">):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;Independent parameter setpoints are not equal. &quot;</span>
-                <span class="s2">&quot;Check concatenated output carefully. Please &quot;</span>
-                <span class="s2">&quot;consider using `to_pandas_dataframe_dict` to export each &quot;</span>
-                <span class="s2">&quot;independent parameter to its own dataframe.&quot;</span>
-            <span class="p">)</span>
-
-        <span class="n">dfs_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_to_dataframe_dict</span><span class="p">(</span><span class="n">datadict</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dfs_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">df</span>
+        <span class="k">return</span> <span class="n">load_to_concatenated_dataframe</span><span class="p">(</span><span class="n">datadict</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataSet.to_xarray_dataarray_dict"><a class="viewcode-back" href="../../../api/dataset/data_set.html#qcodes.dataset.data_set.DataSet.to_xarray_dataarray_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_xarray_dataarray_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                  <span class="o">*</span><span class="n">params</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
@@ -1233,10 +1195,8 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter_data</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">,</span>
                                        <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
                                        <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
-        <span class="n">datadict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_to_xarray_dataarray_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">datadict</span> <span class="o">=</span> <span class="n">load_to_xarray_dataarray_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">dataarray</span> <span class="ow">in</span> <span class="n">datadict</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_add_metadata_to_xarray</span><span class="p">(</span><span class="n">dataarray</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">datadict</span></div>
 
 <div class="viewcode-block" id="DataSet.to_xarray_dataset"><a class="viewcode-back" href="../../../api/dataset/data_set.html#qcodes.dataset.data_set.DataSet.to_xarray_dataset">[docs]</a>    <span class="k">def</span> <span class="nf">to_xarray_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
@@ -1285,132 +1245,7 @@
                                        <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
                                        <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_to_xarray_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
-
-    <span class="k">def</span> <span class="nf">_load_to_xarray_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ParameterData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;xr.Dataset&quot;</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_same_setpoints</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;Independent parameter setpoints are not equal. &quot;</span>
-                <span class="s2">&quot;Check concatenated output carefully. Please &quot;</span>
-                <span class="s2">&quot;consider using `to_xarray_dataarray_dict` to export each &quot;</span>
-                <span class="s2">&quot;independent parameter to its own datarray.&quot;</span>
-            <span class="p">)</span>
-
-        <span class="n">data_xrdarray_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_to_xarray_dataarray_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-        <span class="c1"># Casting Hashable for the key type until python/mypy#1114</span>
-        <span class="c1"># and python/typing#445 are resolved.</span>
-        <span class="n">xrdataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
-            <span class="n">cast</span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="n">Hashable</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">],</span> <span class="n">data_xrdarray_dict</span><span class="p">))</span>
-
-        <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">xrdataset</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot;index&quot;</span> <span class="o">!=</span> <span class="n">dim</span><span class="p">:</span>
-                <span class="n">paramspec_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paramspecs</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">dim</span><span class="p">)]</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
-                <span class="n">xrdataset</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">dim</span><span class="p">)]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">paramspec_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_add_metadata_to_xarray</span><span class="p">(</span><span class="n">xrdataset</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">xrdataset</span>
-
-    <span class="k">def</span> <span class="nf">_add_metadata_to_xarray</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">xrdataset</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;xr.Dataset&quot;</span><span class="p">,</span> <span class="s2">&quot;xr.DataArray&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">xrdataset</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-            <span class="s2">&quot;ds_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s2">&quot;sample_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_name</span><span class="p">,</span>
-            <span class="s2">&quot;exp_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp_name</span><span class="p">,</span>
-            <span class="s2">&quot;snapshot&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshot_raw</span> <span class="ow">or</span> <span class="s2">&quot;null&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;guid&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">guid</span><span class="p">,</span>
-            <span class="s2">&quot;run_timestamp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_timestamp</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;completed_timestamp&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_timestamp</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;captured_run_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">captured_run_id</span><span class="p">,</span>
-            <span class="s2">&quot;captured_counter&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">captured_counter</span><span class="p">,</span>
-            <span class="s2">&quot;run_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span>
-            <span class="s2">&quot;run_description&quot;</span><span class="p">:</span> <span class="n">serial</span><span class="o">.</span><span class="n">to_json_for_storage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
-        <span class="p">})</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_timestamp_raw</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">xrdataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;run_timestamp_raw&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_timestamp_raw</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_timestamp_raw</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">xrdataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
-                <span class="s2">&quot;completed_timestamp_raw&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed_timestamp_raw</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">xrdataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;extra_metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-
-            <span class="k">for</span> <span class="n">metadata_tag</span><span class="p">,</span> <span class="n">metadata</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">xrdataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;extra_metadata&#39;</span><span class="p">][</span><span class="n">metadata_tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_data_to_dataframe</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;pd.Index&quot;</span><span class="p">,</span> <span class="s2">&quot;pd.MultiIndex&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-        <span class="n">dependent_col_name</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">dependent_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">dependent_col_name</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">dependent_data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">):</span>
-            <span class="c1"># ravel will not fully unpack a numpy array of arrays</span>
-            <span class="c1"># which are of &quot;object&quot; dtype. This can happen if a variable</span>
-            <span class="c1"># length array is stored in the db. We use concatenate to</span>
-            <span class="c1"># flatten these</span>
-            <span class="n">mydata</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">dependent_data</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">mydata</span> <span class="o">=</span> <span class="n">dependent_data</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mydata</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
-                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">dependent_col_name</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">df</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_generate_pandas_index</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;pd.Index&quot;</span><span class="p">,</span> <span class="s2">&quot;pd.MultiIndex&quot;</span><span class="p">]:</span>
-        <span class="c1"># the first element in the dict given by parameter_tree is always the dependent</span>
-        <span class="c1"># parameter and the index is therefore formed from the rest</span>
-        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-        <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">index_data</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
-                               <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">)</span>
-                               <span class="k">else</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
-                               <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span>
-                <span class="n">index_data</span><span class="p">,</span>
-                <span class="n">names</span><span class="o">=</span><span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-        <span class="k">return</span> <span class="n">index</span>
-
-    <span class="k">def</span> <span class="nf">_load_to_dataframe_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadict</span><span class="p">:</span> <span class="n">ParameterData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">]:</span>
-        <span class="n">dfs</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">subdict</span> <span class="ow">in</span> <span class="n">datadict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_pandas_index</span><span class="p">(</span><span class="n">subdict</span><span class="p">)</span>
-            <span class="n">dfs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_to_dataframe</span><span class="p">(</span><span class="n">subdict</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">dfs</span>
-
-    <span class="k">def</span> <span class="nf">_load_to_xarray_dataarray_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                       <span class="n">datadict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]])</span> <span class="o">-&gt;</span> \
-            <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;xr.DataArray&quot;</span><span class="p">]:</span>
-        <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-
-        <span class="n">data_xrdarray_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">subdict</span> <span class="ow">in</span> <span class="n">datadict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_pandas_index</span><span class="p">(</span><span class="n">subdict</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">_name</span> <span class="ow">in</span> <span class="n">subdict</span><span class="p">:</span>
-                    <span class="n">data_xrdarray_dict</span><span class="p">[</span><span class="n">_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_to_dataframe</span><span class="p">(</span>
-                        <span class="n">subdict</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()[</span><span class="n">_name</span><span class="p">]</span>
-                    <span class="n">paramspec_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paramspecs</span><span class="p">[</span><span class="n">_name</span><span class="p">]</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
-                    <span class="n">data_xrdarray_dict</span><span class="p">[</span><span class="n">_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">paramspec_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">xrdarray</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_to_dataframe</span><span class="p">(</span>
-                    <span class="n">subdict</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span>
-                <span class="n">data_xrdarray_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">xrdarray</span>
-                <span class="n">paramspec_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paramspecs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
-                <span class="n">xrdarray</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">paramspec_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
-
-        <span class="k">return</span> <span class="n">data_xrdarray_dict</span>
+        <span class="k">return</span> <span class="n">load_to_xarray_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataSet.write_data_to_text_file"><a class="viewcode-back" href="../../../api/dataset/data_set.html#qcodes.dataset.data_set.DataSet.write_data_to_text_file">[docs]</a>    <span class="k">def</span> <span class="nf">write_data_to_text_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                                 <span class="n">single_file</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
