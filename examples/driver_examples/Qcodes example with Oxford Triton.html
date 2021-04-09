@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>QCoDeS Example with Triton &mdash; QCoDeS 0.24.0 documentation</title>
+  <title>QCoDeS Example with Oxford Triton &mdash; QCoDeS 0.24.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.24.0+65.gf688fe3f1f
+                0.24.0+80.gc121578407
               </div>
             
           
@@ -137,7 +137,7 @@
 <li class="toctree-l3"><a class="reference internal" href="Qcodes%20example%20with%20Minicircuits%20Switch%20boxes%20%28USB-XSPDT%29.html">QCoDeS Example with Minicircuits Switch Boxes Controlled via USB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Qcodes%20example%20with%20Newport%20AG-UC8.html">QCoDeS Example with Newport AG-UC8 Piezo Motion Controller</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Qcodes%20example%20with%20Oxford%20Mercury%20iPS.html">QCoDeS Example with Mercury iPS</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">QCoDeS Example with Triton</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">QCoDeS Example with Oxford Triton</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Qcodes%20example%20with%20QDac.html">QCoDeS Example with QDac</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Qcodes%20example%20with%20QDac_channels.html">QCoDeS Example with QDac_channels</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Qcodes%20example%20with%20Rigol%20DP832.html">QCoDeS Example with Rigol DP832 Power Supply</a></li>
@@ -213,7 +213,7 @@
         
           <li><a href="../index.html">Examples of using QCoDeS</a> &raquo;</li>
         
-      <li>QCoDeS Example with Triton</li>
+      <li>QCoDeS Example with Oxford Triton</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -527,8 +527,8 @@ alt="Binder badge"
       p.appendChild(document.createTextNode('.'));
     }
   </script>
-</div><div class="section" id="QCoDeS-Example-with-Triton">
-<h1>QCoDeS Example with Triton<a class="headerlink" href="#QCoDeS-Example-with-Triton" title="Permalink to this headline">¶</a></h1>
+</div><div class="section" id="QCoDeS-Example-with-Oxford-Triton">
+<h1>QCoDeS Example with Oxford Triton<a class="headerlink" href="#QCoDeS-Example-with-Oxford-Triton" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -813,27 +813,9 @@ OK
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">t</span> <span class="o">=</span> <span class="n">triton</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s1">&#39;*IDN?&#39;</span><span class="p">)</span>
+<span></span><span class="n">triton</span><span class="o">.</span><span class="n">get_idn</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">t</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&#39;OXFORD INSTRUMENTS&#39;, &#39;Triton&#39;, &#39;N/A&#39;, &#39;2.445&#39;]
-</pre></div></div>
 </div>
 </div>
 
