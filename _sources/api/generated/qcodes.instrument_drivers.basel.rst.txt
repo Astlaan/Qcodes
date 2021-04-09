@@ -12,6 +12,14 @@ qcodes.instrument\_drivers.basel.sp983c module
    :undoc-members:
    :show-inheritance:
 
+qcodes.instrument\_drivers.basel.sp983c\_remote module
+------------------------------------------------------
+
+.. automodule:: qcodes.instrument_drivers.basel.sp983c_remote
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

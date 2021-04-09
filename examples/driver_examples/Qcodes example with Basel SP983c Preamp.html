@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Qcodes example with Basel SP983c Preamp &mdash; QCoDeS 0.24.0 documentation</title>
+  <title>Qcodes example with Basel SP983c Preamp and its Remote SP983a &mdash; QCoDeS 0.24.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.24.0+80.gc121578407
+                0.24.0+106.g47760e0e0d
               </div>
             
           
@@ -118,9 +118,10 @@
 <li class="toctree-l3"><a class="reference internal" href="Qcodes%20example%20with%20AMI430.html">QCoDeS Example with AMI430</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Qcodes%20example%20with%20Agilent%2034400A.html">QCoDeS Example with Agilent 34400A</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Qcodes%20example%20with%20Alazar%20ATS9360.html">QCoDeS Example with Alazar ATS 9360</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Qcodes example with Basel SP983c Preamp</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Qcodes example with Basel SP983c Preamp and its Remote SP983a</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Basel-SP983c-Preamp">Basel SP983c Preamp</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Features-of-Qcodes-Basel-SP983c-Preamp-driver">Features of Qcodes Basel SP983c Preamp driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Basel-Preamp-Remote-Control-SP983a">Basel Preamp Remote Control SP983a</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="Qcodes%20example%20with%20DynaCool%20PPMS.html">QCoDeS Example with DynaCool PPMS</a></li>
@@ -217,7 +218,7 @@
         
           <li><a href="../index.html">Examples of using QCoDeS</a> &raquo;</li>
         
-      <li>Qcodes example with Basel SP983c Preamp</li>
+      <li>Qcodes example with Basel SP983c Preamp and its Remote SP983a</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -531,9 +532,9 @@ alt="Binder badge"
       p.appendChild(document.createTextNode('.'));
     }
   </script>
-</div><div class="section" id="Qcodes-example-with-Basel-SP983c-Preamp">
-<h1>Qcodes example with Basel SP983c Preamp<a class="headerlink" href="#Qcodes-example-with-Basel-SP983c-Preamp" title="Permalink to this headline">¶</a></h1>
-<p>This notebook explains how the Basel SP983c Preamp works and shows the main features of its QCoDeS driver.</p>
+</div><div class="section" id="Qcodes-example-with-Basel-SP983c-Preamp-and-its-Remote-SP983a">
+<h1>Qcodes example with Basel SP983c Preamp and its Remote SP983a<a class="headerlink" href="#Qcodes-example-with-Basel-SP983c-Preamp-and-its-Remote-SP983a" title="Permalink to this headline">¶</a></h1>
+<p>This notebook explains how the Basel SP983c Preamp works and shows the main features of its and its remote’s QCoDeS driver.</p>
 <div class="section" id="Basel-SP983c-Preamp">
 <h2>Basel SP983c Preamp<a class="headerlink" href="#Basel-SP983c-Preamp" title="Permalink to this headline">¶</a></h2>
 <p>This preamp is a low-noise high-stability (LNHS) I to V converter which offers unique features such as a floating input and the possibility to apply an external offset voltage. It offers five decades of gain, from 10^5 up to 10^9 V/A, and an integrated low-pass filter with a cut-off from 30 Hz to 1 MHz.</p>
@@ -543,8 +544,8 @@ alt="Binder badge"
 <p>The driver has three parameters - gain, fcut and offset_voltage. ‘gain’ and ‘fcut’ parameters are mirroring the gain and cut-off frequency setup on the instrument and can be set to the values available on the physical instrument. It is users responsibility to set these parameters on the driver to the values matching to the values set on the physical instrument.</p>
 <p>Let’s try it …</p>
 <p>Make the necessary imports …</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -554,24 +555,8 @@ alt="Binder badge"
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Logging hadn&#39;t been started.
-Activating auto-logging. Current session state plus future input saved.
-Filename       : /home/runner/.qcodes/logs/command_history.log
-Mode           : append
-Output logging : True
-Raw input log  : False
-Timestamping   : True
-State          : active
-Qcodes Logfile : /home/runner/.qcodes/logs/210409-10506-qcodes.log
-</pre></div></div>
-</div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -581,7 +566,7 @@ Qcodes Logfile : /home/runner/.qcodes/logs/210409-10506-qcodes.log
 </div>
 <p>gain can be set as:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -591,7 +576,7 @@ Qcodes Logfile : /home/runner/.qcodes/logs/210409-10506-qcodes.log
 </div>
 <p>and recalled as:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -600,7 +585,7 @@ Qcodes Logfile : /home/runner/.qcodes/logs/210409-10506-qcodes.log
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -610,7 +595,7 @@ Qcodes Logfile : /home/runner/.qcodes/logs/210409-10506-qcodes.log
 </div>
 <p>cut-off frequency can be set as:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -620,7 +605,7 @@ Qcodes Logfile : /home/runner/.qcodes/logs/210409-10506-qcodes.log
 </div>
 <p>and recalled as:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -629,7 +614,7 @@ Qcodes Logfile : /home/runner/.qcodes/logs/210409-10506-qcodes.log
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -638,7 +623,7 @@ Qcodes Logfile : /home/runner/.qcodes/logs/210409-10506-qcodes.log
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -652,7 +637,7 @@ Qcodes Logfile : /home/runner/.qcodes/logs/210409-10506-qcodes.log
 <div class="section" id="Create-a-source-as-input-offset-voltage-for-Basel-preamp">
 <h4>Create a source as input offset voltage for Basel preamp<a class="headerlink" href="#Create-a-source-as-input-offset-voltage-for-Basel-preamp" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -666,11 +651,11 @@ Qcodes Logfile : /home/runner/.qcodes/logs/210409-10506-qcodes.log
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-03-01) in 0.06s
+Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-03-01) in 0.11s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -679,7 +664,7 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -691,7 +676,7 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 <div class="section" id="1.-Instantiate-Basel-preamp-with-the-source-input-offset-voltage-parameter">
 <h4>1. Instantiate Basel preamp with the source input offset voltage parameter<a class="headerlink" href="#1.-Instantiate-Basel-preamp-with-the-source-input-offset-voltage-parameter" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -700,7 +685,7 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -709,7 +694,7 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -718,7 +703,7 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -730,7 +715,7 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 <div class="section" id="2.-Or,-instantiate-the-preamp-without-source-input-offset-voltage-parameter-and-assign-it-later">
 <h4>2. Or, instantiate the preamp without source input offset voltage parameter and assign it later<a class="headerlink" href="#2.-Or,-instantiate-the-preamp-without-source-input-offset-voltage-parameter-and-assign-it-later" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -739,7 +724,7 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -748,7 +733,7 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -757,7 +742,7 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -766,7 +751,7 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -778,7 +763,7 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 <div class="section" id="Close-source-instrument">
 <h4>Close source instrument<a class="headerlink" href="#Close-source-instrument" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -786,15 +771,39 @@ Connected to: Keysight 34465A (serial:1000, firmware:A.02.16-02.40-02.16-00.51-0
 </pre></div>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="section" id="Basel-Preamp-Remote-Control-SP983a">
+<h2>Basel Preamp Remote Control SP983a<a class="headerlink" href="#Basel-Preamp-Remote-Control-SP983a" title="Permalink to this headline">¶</a></h2>
+<p>Remote Control SP983a connects with the Basel SP983c Preamp and provides user friendly computer interface for the preamp. While remote is connected to the basel preamp, knobs for gain and fcut on basel preamp needs to be set to remote position. When you are using remote with the basel preamp, QCoDeS provided driver for remote control can be used directly and it can be imported in your scripts as follows.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">qcodes.instrument_drivers.basel.sp983c_remote</span> <span class="kn">import</span> <span class="n">SP983A</span>
+</pre></div>
+</div>
+</div>
+<p>This driver replaces the Basel Preamp driver when remote SP983a in use. The remote’s driver has the same parameters ‘gain’, ‘fcut’ and ‘offset_voltage’ which can be used in exactly the same way as mentioned above after initialization of the remote’s driver as below.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span><span class="n">preamp_remote</span> <span class="o">=</span> <span class="n">SP983A</span><span class="p">(</span><span class="s2">&quot;remote&quot;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="s2">&quot;address of the remote instrument&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<p>In addition, remote’s driver provides another parameter to check the overload status. It can be used as follows.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">preamp_remote</span><span class="o">.</span><span class="n">overload_status</span><span class="p">()</span>
+</pre></div>
 </div>
 </div>
 </div>
