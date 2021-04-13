@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.24.0+127.g4717dc153d
+                0.24.0+137.g6e6ef6d9f3
               </div>
             
           
@@ -187,7 +187,7 @@
 <span class="kn">from</span> <span class="nn">qcodes.utils.plotting</span> <span class="kn">import</span> <span class="p">(</span><span class="n">auto_color_scale_from_config</span><span class="p">,</span>
                                    <span class="n">find_scale_and_prefix</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">.data_export</span> <span class="kn">import</span> <span class="p">(</span><span class="n">get_data_by_id</span><span class="p">,</span> <span class="n">flatten_1D_data_for_plot</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">.data_export</span> <span class="kn">import</span> <span class="p">(</span><span class="n">_get_data_from_ds</span><span class="p">,</span> <span class="n">flatten_1D_data_for_plot</span><span class="p">,</span>
                           <span class="n">get_1D_plottype</span><span class="p">,</span> <span class="n">get_2D_plottype</span><span class="p">,</span> <span class="n">reshape_2D_data</span><span class="p">,</span>
                           <span class="n">_strings_as_ints</span><span class="p">)</span>
 
@@ -344,7 +344,7 @@
     <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Run #</span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">captured_run_id</span><span class="si">}</span><span class="s2">, &quot;</span> \
             <span class="sa">f</span><span class="s2">&quot;Experiment </span><span class="si">{</span><span class="n">experiment_name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">sample_name</span><span class="si">}</span><span class="s2">)&quot;</span>
 
-    <span class="n">alldata</span><span class="p">:</span> <span class="n">NamedData</span> <span class="o">=</span> <span class="n">get_data_by_id</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">run_id</span><span class="p">)</span>
+    <span class="n">alldata</span><span class="p">:</span> <span class="n">NamedData</span> <span class="o">=</span> <span class="n">_get_data_from_ds</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
     <span class="n">alldata</span> <span class="o">=</span> <span class="n">_complex_to_real_preparser</span><span class="p">(</span><span class="n">alldata</span><span class="p">,</span>
                                          <span class="n">conversion</span><span class="o">=</span><span class="n">complex_plot_type</span><span class="p">,</span>
                                          <span class="n">degrees</span><span class="o">=</span><span class="n">degrees</span><span class="p">)</span>
