@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.24.0+137.g6e6ef6d9f3
+                0.24.0+152.g8571b6d08e
               </div>
             
           
@@ -544,7 +544,7 @@ Output logging : True
 Raw input log  : False
 Timestamping   : True
 State          : active
-Qcodes Logfile : /home/runner/.qcodes/logs/210413-6499-qcodes.log
+Qcodes Logfile : /home/runner/.qcodes/logs/210414-6511-qcodes.log
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -563,14 +563,14 @@ Qcodes Logfile : /home/runner/.qcodes/logs/210413-6499-qcodes.log
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Upgrading database; v0 -&gt; v1: : 0it [00:00, ?it/s]
-Upgrading database; v1 -&gt; v2: 100%|██████████| 1/1 [00:00&lt;00:00, 987.82it/s]
+Upgrading database; v1 -&gt; v2: 100%|██████████| 1/1 [00:00&lt;00:00, 423.03it/s]
 Upgrading database; v2 -&gt; v3: : 0it [00:00, ?it/s]
 Upgrading database; v3 -&gt; v4: : 0it [00:00, ?it/s]
-Upgrading database; v4 -&gt; v5: 100%|██████████| 1/1 [00:00&lt;00:00, 578.76it/s]
+Upgrading database; v4 -&gt; v5: 100%|██████████| 1/1 [00:00&lt;00:00, 1053.85it/s]
 Upgrading database; v5 -&gt; v6: : 0it [00:00, ?it/s]
-Upgrading database; v6 -&gt; v7: 100%|██████████| 1/1 [00:00&lt;00:00, 208.04it/s]
-Upgrading database; v7 -&gt; v8: 100%|██████████| 1/1 [00:00&lt;00:00, 404.19it/s]
-Upgrading database; v8 -&gt; v9: 100%|██████████| 1/1 [00:00&lt;00:00, 417.63it/s]
+Upgrading database; v6 -&gt; v7: 100%|██████████| 1/1 [00:00&lt;00:00, 467.59it/s]
+Upgrading database; v7 -&gt; v8: 100%|██████████| 1/1 [00:00&lt;00:00, 1028.27it/s]
+Upgrading database; v8 -&gt; v9: 100%|██████████| 1/1 [00:00&lt;00:00, 456.65it/s]
 </pre></div></div>
 </div>
 <p>First we setup two dummy instruments to have something to measure. The dmm is setup to generate an output depending on the values set on the dac simulating a real experiment.</p>
@@ -694,7 +694,7 @@ Starting experimental run with id: 2.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "76ae7ef6a3b54c2788250dce1f93c450"}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "18a9ac42c15346568b7beb25fba58f5b"}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
@@ -818,29 +818,39 @@ Starting experimental run with id: 4.
 </div>
 </div>
 <div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-04-14 07:44:06,962 ¦ py.warnings ¦ WARNING ¦ warnings ¦ _showwarnmsg ¦ 110 ¦ /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/qcodes/utils/deprecate.py:59: QCoDeSDeprecationWarning: The function &lt;reshape_2D_data&gt; is deprecated, because only used by deprecated functions.
+  issue_deprecation_warning(f&#39;{t} &lt;{n}&gt;&#39;, reason, alternative)
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-([&lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #4, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch1 (V)&#39;, ylabel=&#39;Gate ch2 (V)&#39;&gt;,
-  &lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #4, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch1 (V)&#39;, ylabel=&#39;Gate ch2 (V)&#39;&gt;],
- [&lt;matplotlib.colorbar.Colorbar at 0x7f773d6ac690&gt;,
-  &lt;matplotlib.colorbar.Colorbar at 0x7f773cef5310&gt;])
+([&lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #4, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch2 (V)&#39;, ylabel=&#39;Gate ch1 (V)&#39;&gt;,
+  &lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #4, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch2 (V)&#39;, ylabel=&#39;Gate ch1 (V)&#39;&gt;],
+ [&lt;matplotlib.colorbar.Colorbar at 0x7f8386a7f810&gt;,
+  &lt;matplotlib.colorbar.Colorbar at 0x7f8386a5d210&gt;])
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_23_1.png" src="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_23_1.png" />
+<img alt="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_23_2.png" src="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_23_2.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_23_2.png" src="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_23_2.png" />
+<img alt="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_23_3.png" src="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_23_3.png" />
 </div>
 </div>
 </div>
@@ -877,10 +887,10 @@ Starting experimental run with id: 5.
  dac_ch2 - numeric
  dmm_v1 - numeric
  dmm_v2 - numeric,
- [&lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #5, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch1 (V)&#39;, ylabel=&#39;Gate ch2 (V)&#39;&gt;,
-  &lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #5, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch1 (V)&#39;, ylabel=&#39;Gate ch2 (V)&#39;&gt;],
- [&lt;matplotlib.colorbar.Colorbar at 0x7f773cd2a0d0&gt;,
-  &lt;matplotlib.colorbar.Colorbar at 0x7f773ccf1410&gt;])
+ [&lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #5, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch2 (V)&#39;, ylabel=&#39;Gate ch1 (V)&#39;&gt;,
+  &lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #5, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch2 (V)&#39;, ylabel=&#39;Gate ch1 (V)&#39;&gt;],
+ [&lt;matplotlib.colorbar.Colorbar at 0x7f8386888590&gt;,
+  &lt;matplotlib.colorbar.Colorbar at 0x7f83867e2050&gt;])
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -987,6 +997,16 @@ Starting experimental run with id: 7.
 </div>
 </div>
 <div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2021-04-14 07:44:19,371 ¦ py.warnings ¦ WARNING ¦ warnings ¦ _showwarnmsg ¦ 110 ¦ /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/qcodes/utils/deprecate.py:59: QCoDeSDeprecationWarning: The function &lt;reshape_2D_data&gt; is deprecated, because only used by deprecated functions.
+  issue_deprecation_warning(f&#39;{t} &lt;{n}&gt;&#39;, reason, alternative)
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
@@ -998,28 +1018,28 @@ Starting experimental run with id: 7.
  dac_ch2 - numeric
  dmm_v1 - numeric
  dmm_v2 - numeric,
- [&lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #7, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch1 (mV)&#39;, ylabel=&#39;Gate ch2 (mV)&#39;&gt;,
-  &lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #7, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch1 (mV)&#39;, ylabel=&#39;Gate ch2 (mV)&#39;&gt;],
- [&lt;matplotlib.colorbar.Colorbar at 0x7f773ca3c910&gt;,
-  &lt;matplotlib.colorbar.Colorbar at 0x7f773ca11310&gt;])
+ [&lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #7, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch2 (mV)&#39;, ylabel=&#39;Gate ch1 (mV)&#39;&gt;,
+  &lt;AxesSubplot:title={&#39;center&#39;:&#39;Run #7, Experiment doNd_VS_Measurement (no sample)&#39;}, xlabel=&#39;Gate ch2 (mV)&#39;, ylabel=&#39;Gate ch1 (mV)&#39;&gt;],
+ [&lt;matplotlib.colorbar.Colorbar at 0x7f838659e950&gt;,
+  &lt;matplotlib.colorbar.Colorbar at 0x7f83864ffd10&gt;])
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_32_1.png" src="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_32_1.png" />
+<img alt="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_32_2.png" src="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_32_2.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_32_2.png" src="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_32_2.png" />
+<img alt="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_32_3.png" src="../../_images/examples_DataSet_Using_doNd_functions_in_comparison_to_Measurement_context_manager_for_performing_measurements_32_3.png" />
 </div>
 </div>
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"85ccbf1597f640c384f5812ed238ffdc": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "182d273edaf84294b8eca53676d20921": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "1da9de02b7e64e128d3e286f8e51fa54": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_85ccbf1597f640c384f5812ed238ffdc", "max": 10.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_182d273edaf84294b8eca53676d20921", "value": 10.0}}, "66ae1e77e18f4e649c3eaccad709677e": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "d336cf9849b74882804af783743a83b5": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "7ac6f13d78984465b99eefe65c6108e6": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_66ae1e77e18f4e649c3eaccad709677e", "placeholder": "\u200b", "style": "IPY_MODEL_d336cf9849b74882804af783743a83b5", "value": "100%"}}, "a47871f93fa94df9b11d498e6ee4a62f": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "9931d04f20aa4cf1a430f46ebe8d62e1": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "5ed49ed96f3e4bdd98e06539b6463d71": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_a47871f93fa94df9b11d498e6ee4a62f", "placeholder": "\u200b", "style": "IPY_MODEL_9931d04f20aa4cf1a430f46ebe8d62e1", "value": " 10/10 [00:00&lt;00:00, 69.37it/s]"}}, "1fefa7af9efc4dd79ebc5d16c0c13984": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "76ae7ef6a3b54c2788250dce1f93c450": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_7ac6f13d78984465b99eefe65c6108e6", "IPY_MODEL_1da9de02b7e64e128d3e286f8e51fa54", "IPY_MODEL_5ed49ed96f3e4bdd98e06539b6463d71"], "layout": "IPY_MODEL_1fefa7af9efc4dd79ebc5d16c0c13984"}}}, "version_major": 2, "version_minor": 0}
+{"state": {"6fbb1f53a3b34826826fa95e43380b27": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "95af80d04f4845ca82d8178f74f18364": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "07101702165c4b0ba2b50befe0725abd": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_6fbb1f53a3b34826826fa95e43380b27", "max": 10.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_95af80d04f4845ca82d8178f74f18364", "value": 10.0}}, "b026d0959f544c6aa67e9a9d0de98bf8": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7ab424bc49f94050ab380c24f5dc7dad": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "595026935e124b679806bd6ceb5a8041": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_b026d0959f544c6aa67e9a9d0de98bf8", "placeholder": "\u200b", "style": "IPY_MODEL_7ab424bc49f94050ab380c24f5dc7dad", "value": "100%"}}, "7e82812eff1b4a029aea8c8dc0994f59": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "bc0fb0ea68934af9aa96b32640f5cf3e": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "c145b753bffb488bbb3cd9ceb186f19c": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_7e82812eff1b4a029aea8c8dc0994f59", "placeholder": "\u200b", "style": "IPY_MODEL_bc0fb0ea68934af9aa96b32640f5cf3e", "value": " 10/10 [00:00&lt;00:00, 69.27it/s]"}}, "030b85731485486e87af3f9e27c44ee5": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "18a9ac42c15346568b7beb25fba58f5b": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_595026935e124b679806bd6ceb5a8041", "IPY_MODEL_07101702165c4b0ba2b50befe0725abd", "IPY_MODEL_c145b753bffb488bbb3cd9ceb186f19c"], "layout": "IPY_MODEL_030b85731485486e87af3f9e27c44ee5"}}}, "version_major": 2, "version_minor": 0}
 </script></div>
 </div>
 
