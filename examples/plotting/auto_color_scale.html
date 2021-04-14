@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.24.0+152.g8571b6d08e
+                0.24.0+155.g6bdc351817
               </div>
             
           
@@ -563,16 +563,16 @@ Output logging : True
 Raw input log  : False
 Timestamping   : True
 State          : active
-Qcodes Logfile : /home/runner/.qcodes/logs/210414-17679-qcodes.log
+Qcodes Logfile : /home/runner/.qcodes/logs/210414-17721-qcodes.log
 Upgrading database; v0 -&gt; v1: : 0it [00:00, ?it/s]
-Upgrading database; v1 -&gt; v2: 100%|██████████| 1/1 [00:00&lt;00:00, 425.73it/s]
+Upgrading database; v1 -&gt; v2: 100%|██████████| 1/1 [00:00&lt;00:00, 1388.84it/s]
 Upgrading database; v2 -&gt; v3: : 0it [00:00, ?it/s]
 Upgrading database; v3 -&gt; v4: : 0it [00:00, ?it/s]
-Upgrading database; v4 -&gt; v5: 100%|██████████| 1/1 [00:00&lt;00:00, 801.82it/s]
+Upgrading database; v4 -&gt; v5: 100%|██████████| 1/1 [00:00&lt;00:00, 425.34it/s]
 Upgrading database; v5 -&gt; v6: : 0it [00:00, ?it/s]
-Upgrading database; v6 -&gt; v7: 100%|██████████| 1/1 [00:00&lt;00:00, 464.23it/s]
-Upgrading database; v7 -&gt; v8: 100%|██████████| 1/1 [00:00&lt;00:00, 832.04it/s]
-Upgrading database; v8 -&gt; v9: 100%|██████████| 1/1 [00:00&lt;00:00, 540.92it/s]
+Upgrading database; v6 -&gt; v7: 100%|██████████| 1/1 [00:00&lt;00:00, 284.13it/s]
+Upgrading database; v7 -&gt; v8: 100%|██████████| 1/1 [00:00&lt;00:00, 636.18it/s]
+Upgrading database; v8 -&gt; v9: 100%|██████████| 1/1 [00:00&lt;00:00, 1508.20it/s]
 </pre></div></div>
 </div>
 <div class="section" id="Exampe-1:-outliers-in-homogeneous-data">
@@ -600,21 +600,11 @@ Upgrading database; v8 -&gt; v9: 100%|██████████| 1/1 [00:00
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-2021-04-14 07:48:29,644 ¦ py.warnings ¦ WARNING ¦ warnings ¦ _showwarnmsg ¦ 110 ¦ /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/qcodes/utils/deprecate.py:59: QCoDeSDeprecationWarning: The function &lt;reshape_2D_data&gt; is deprecated, because only used by deprecated functions.
-  issue_deprecation_warning(f&#39;{t} &lt;{n}&gt;&#39;, reason, alternative)
-
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/examples_plotting_auto_color_scale_9_1.png" src="../../_images/examples_plotting_auto_color_scale_9_1.png" />
+<img alt="../../_images/examples_plotting_auto_color_scale_9_0.png" src="../../_images/examples_plotting_auto_color_scale_9_0.png" />
 </div>
 </div>
 <p>By adding the keyword <code class="docutils literal notranslate"><span class="pre">auto_color_scale=True</span></code> one activates the scaling:</p>
@@ -668,7 +658,7 @@ take up more than half a percent each of the total area.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.lines.Line2D at 0x7fce31f84810&gt;
+&lt;matplotlib.lines.Line2D at 0x7f1b054a0250&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -708,21 +698,11 @@ increase of the steepness of color gradient.</p>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-2021-04-14 07:48:30,520 ¦ py.warnings ¦ WARNING ¦ warnings ¦ _showwarnmsg ¦ 110 ¦ /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/qcodes/utils/deprecate.py:59: QCoDeSDeprecationWarning: The function &lt;reshape_2D_data&gt; is deprecated, because only used by deprecated functions.
-  issue_deprecation_warning(f&#39;{t} &lt;{n}&gt;&#39;, reason, alternative)
-
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/examples_plotting_auto_color_scale_20_1.png" src="../../_images/examples_plotting_auto_color_scale_20_1.png" />
+<img alt="../../_images/examples_plotting_auto_color_scale_20_0.png" src="../../_images/examples_plotting_auto_color_scale_20_0.png" />
 </div>
 </div>
 <p>In this example dataset the region of interest shall be represented by the center region. Again there are outliers that render the color grading almost useless.</p>
@@ -772,7 +752,7 @@ increase of the steepness of color gradient.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.lines.Line2D at 0x7fce31417a10&gt;
+&lt;matplotlib.lines.Line2D at 0x7f1b04928fd0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -817,21 +797,11 @@ increase of the steepness of color gradient.</p>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-2021-04-14 07:48:31,537 ¦ py.warnings ¦ WARNING ¦ warnings ¦ _showwarnmsg ¦ 110 ¦ /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/qcodes/utils/deprecate.py:59: QCoDeSDeprecationWarning: The function &lt;reshape_2D_data&gt; is deprecated, because only used by deprecated functions.
-  issue_deprecation_warning(f&#39;{t} &lt;{n}&gt;&#39;, reason, alternative)
-
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/examples_plotting_auto_color_scale_29_1.png" src="../../_images/examples_plotting_auto_color_scale_29_1.png" />
+<img alt="../../_images/examples_plotting_auto_color_scale_29_0.png" src="../../_images/examples_plotting_auto_color_scale_29_0.png" />
 </div>
 </div>
 </div>
